@@ -1,33 +1,30 @@
 use std::fmt;
 
-#[derive(Debug, Clone, PartialEq)]
-pub enum Value {
-    Number(f64),
-    Bool(bool),
-    Nil,
-}
-
-impl fmt::Display for Value {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        match self {
-            Value::Number(n) => write!(f, "{}", n),
-            Value::Bool(b) => write!(f, "{}", b),
-            Value::Nil => write!(f, "nil")
-        }
-    }
-}
+use super::value::Value;
 
 #[derive(Debug, Clone)]
 pub enum OpCode {
     Constant(Value),
+    Add,
+    Subtract,
+    Multiply,
+    Divide,
+    Negate,
     Return,
 }
 
 impl fmt::Display for OpCode {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        use OpCode::*;
+
         match self {
-            OpCode::Return => write!(f, "OP_RETURN"),
-            OpCode::Constant(v) => write!(f, "OP_CONSTANT {}", v)
+            Return => write!(f, "OP_RETURN"),
+            Constant(v) => write!(f, "OP_CONSTANT {}", v),
+            Add => write!(f, "OP_ADD"),
+            Subtract => write!(f, "OP_SUBTRACT"),
+            Multiply => write!(f, "OP_MULTIPLY"),
+            Divide => write!(f, "OP_DIVIDE"),
+            Negate => write!(f, "OP_NEGATE"),
         }
     }
 }

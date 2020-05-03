@@ -1,10 +1,15 @@
+#[macro_use]
+extern crate enum_methods;
+
 mod vm;
 mod chunk;
+mod value;
 mod instruction;
 
 use vm::VM;
 use chunk::Chunk;
-use instruction::{Value, OpCode, Instruction};
+use value::Value;
+use instruction::{OpCode, Instruction};
 
 fn main() {
     let mut vm = VM::new();

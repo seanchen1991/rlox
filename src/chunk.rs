@@ -1,4 +1,5 @@
-use super::instruction::{Value, Instruction};
+use super::value::Value;
+use super::instruction::Instruction;
 
 const VECTOR_SIZE: usize = 8;
 
