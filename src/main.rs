@@ -1,45 +1,15 @@
-use std::fmt;
+mod vm;
+mod chunk;
+mod instruction;
 
-#[repr(C)]
-pub enum OpCode {
-    Return,
-}
-
-impl fmt::Display for OpCode {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        match self {
-            OpCode::Return => write!(f, "RETURN"),
-        }
-    }
-}
-
-pub struct Chunk {
-    code: Vec<OpCode>
-}
-
-impl Chunk {
-    pub fn new() -> Self {
-        Chunk { code: Vec::new() }
-    }
-
-    pub fn write(&mut self, op: OpCode) {
-        self.code.push(op);
-    }
-
-    pub fn disassemble(&self, name: &str) {
-        println!("== {} ==\n", name);
-
-        let mut offset: usize = 0;
-
-        for op in self.code.iter() {
-            println!("{:04} {}", offset, op);
-            offset += 1;
-        }
-    }
-}
+use vm::VM;
+use chunk::Chunk;
+use instruction::{Value, OpCode, Instruction};
 
 fn main() {
+    let mut vm = VM::new();
     let mut chunk = Chunk::new();
-    chunk.write(OpCode::Return);
+    chunk.write_instruction(Instruction { op: OpCode::Return, line: 0 });
+    chunk.write_instruction(Instruction { op: OpCode::Constant(Value::Number(64.0)), line: 1 });
     chunk.disassemble("test chunk");
 }
